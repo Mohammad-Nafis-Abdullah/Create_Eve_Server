@@ -226,22 +226,11 @@ async function run() {
     })
 
     // post home banner images
-    app.post('/home-banner', verifyAdmin, serviceUpload.array("img",5), async (req,res)=> {
-        const result = await allBannerImages.find({}).toArray();
-        if (req.files?.length<=0) {
-          return;
-        }
-        [...result].forEach(({img})=>{
-          fs.unlink(`${serviceDir}/${img}`, err => {});
-        });
-        const banners = [];
-        req.files.forEach(({filename})=>{
-          banners.push({img:filename});
-        })
-        await allBannerImages.deleteMany({});
-        await allBannerImages.insertMany(banners);
-
-        res.send({upload:true});
+    app.post('/home-banner', verifyAdmin, async (req,res)=> {
+      const banners = req.body;
+      await allBannerImages.deleteMany({});
+      await allBannerImages.insertMany(banners);
+      res.send({upload:true});
     })
 
     // get sub services api
@@ -702,12 +691,12 @@ async function run() {
     app.delete("/service/:type/:id", verifyAdmin, async (req, res) => {
       const { type, id } = req.params;
 
-      const findService = await client
+      /* const findService = await client
         .db("create-eve-db")
         .collection(`all-${type}`)
-        .findOne({ _id: ObjectId(id) })
+        .findOne({ _id: ObjectId(id) }) */
       
-        fs.unlink(`${serviceDir}/${findService?.img}`, err => { });
+        // fs.unlink(`${serviceDir}/${findService?.img}`, err => { });
       
       const result = await client
         .db("create-eve-db")
@@ -762,12 +751,12 @@ async function run() {
       const { category } = req.params;
       const { id } = req.params;
 
-      const findPkg = await client
+      /* const findPkg = await client
         .db("create-eve-db")
         .collection(`all-${category}`)
-        .findOne({ _id: ObjectId(id) })
+        .findOne({ _id: ObjectId(id) }) */
       
-        fs.unlink(`${serviceDir}/${findPkg?.coverPhoto}`, err => { });
+        // fs.unlink(`${serviceDir}/${findPkg?.coverPhoto}`, err => { });
       
       const result = await client
         .db("create-eve-db")
@@ -800,6 +789,7 @@ async function run() {
       const file = `${__dirname}/services/${id}`;
       res.sendFile(file);
     });
+
   } finally {
   }
 }
