@@ -192,7 +192,8 @@ async function run() {
 
     // verify admin
     const verifyAdmin = async (req, res, next) => {
-      const { uid } = req.headers;
+      const { uid } = req.cookies;
+      // const { uid } = req.headers;
       const user = await userCollection.findOne({ uid: uid });
 
       if (user?.role === "admin" || user?.role === "owner") {
@@ -204,7 +205,8 @@ async function run() {
 
     // verify Owner
     const verifyOwner = async (req, res, next) => {
-      const { uid } = req.headers;
+      const { uid } = req.cookies;
+      // const { uid } = req.headers;
       const user = await userCollection.findOne({ uid: uid });
 
       if (user?.role === "owner") {
@@ -380,8 +382,10 @@ async function run() {
         $set: user,
       };
       const result = await userCollection.updateOne(filter, updateDoc, options);
+      res.cookie('uid',uid);
       res.send({ result });
     });
+
 
     // get all user for admin dashboard
     app.get("/allusers", verifyAdmin, async (req, res) => {
