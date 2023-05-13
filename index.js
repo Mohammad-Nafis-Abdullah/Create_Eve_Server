@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
 require("dotenv").config();
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
@@ -83,8 +84,9 @@ const serviceUpload = multer({
   },
 });
 
-app.use(cors());
+app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
+app.use(cookieParser());
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@create-eve.svsmukc.mongodb.net/?retryWrites=true&w=majority`;
 
@@ -93,22 +95,6 @@ const client = new MongoClient(uri, {
   useUnifiedTopology: true,
   serverApi: ServerApiVersion.v1,
 });
-
-// IT'S THE JWT
-/* function varifyJwt(req, res, next) {
-  const authHeader = req.headers.authorization;
-  if (!authHeader) {
-    res.status(401).send({ message: "Un authorize access" });
-  }
-  const token = authHeader.split(" ")[1];
-  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, function (err, decoded) {
-    if (err) {
-      return res.status(403).send({ message: "Forbidden access" });
-    }
-    req.decoded = decoded;
-    next();
-  });
-} */
 
 async function run() {
   try {
@@ -192,8 +178,7 @@ async function run() {
 
     // verify admin
     const verifyAdmin = async (req, res, next) => {
-      const { uid } = req.cookies;
-      // const { uid } = req.headers;
+      const uid = req.cookies?.uid;
       const user = await userCollection.findOne({ uid: uid });
 
       if (user?.role === "admin" || user?.role === "owner") {
@@ -205,8 +190,7 @@ async function run() {
 
     // verify Owner
     const verifyOwner = async (req, res, next) => {
-      const { uid } = req.cookies;
-      // const { uid } = req.headers;
+      const uid = req.cookies?.uid;
       const user = await userCollection.findOne({ uid: uid });
 
       if (user?.role === "owner") {
@@ -385,7 +369,13 @@ async function run() {
       res.cookie('uid',uid);
       res.send({ result });
     });
-
+    
+    // clear cookie after signout
+    app.get('/sign-out', async (req,res)=> {
+      res.clearCookie('uid');
+      res.location(req.headers.referer);
+      res.send();
+    })
 
     // get all user for admin dashboard
     app.get("/allusers", verifyAdmin, async (req, res) => {
