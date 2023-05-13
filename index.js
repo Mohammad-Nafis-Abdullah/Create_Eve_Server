@@ -84,7 +84,7 @@ const serviceUpload = multer({
   },
 });
 
-app.use(cors({ origin: true, credentials: true }));
+app.use(cors({ credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
 
