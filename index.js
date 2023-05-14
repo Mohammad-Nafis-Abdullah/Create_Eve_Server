@@ -178,7 +178,8 @@ async function run() {
 
     // verify admin
     const verifyAdmin = async (req, res, next) => {
-      const uid = req.cookies?.uid;
+      // const uid = req.cookies?.uid;
+      const uid = req.headers?.uid;
       const user = await userCollection.findOne({ uid: uid });
 
       if (user?.role === "admin" || user?.role === "owner") {
@@ -190,7 +191,8 @@ async function run() {
 
     // verify Owner
     const verifyOwner = async (req, res, next) => {
-      const uid = req.cookies?.uid;
+      // const uid = req.cookies?.uid;
+      const uid = req.headers?.uid;
       const user = await userCollection.findOne({ uid: uid });
 
       if (user?.role === "owner") {
