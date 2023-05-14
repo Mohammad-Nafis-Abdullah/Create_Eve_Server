@@ -381,7 +381,7 @@ async function run() {
 
     // get all user for admin dashboard
     app.get("/allusers", verifyAdmin, async (req, res) => {
-      const query = {};
+      const query = {uid:{$ne:req.headers?.uid}};
       const result = await userCollection.find(query).toArray();
       res.send(result);
     });
