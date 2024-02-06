@@ -1,0 +1,67 @@
+* /home-banner (get, post) => /home-banners (get, post)
+
+* /get-sub-services/:type (get) => /sub-services/:type (get)
+
+/services-get (get) => /services (get)
+
+/single-service/:id (get) => /services/:id (get)
+
+* /venues (get) => /venues (get)
+
+/venue/:id (get) => /venues/:id (get)
+
+/venue-booking (post) => /bookings/venue (post)
+
+* /bookings (post) => /bookings (post)
+
+* /get-all-booking-info (get) => /bookings (get)
+
+* /bookings/:uid (get) => /bookings/user/:uid (get)
+
+* /payment/:id (get) => /bookings/:id (get)
+
+* /payment-info/:id (put) => /bookings/:id (put)
+
+* /bookings/:id (delete) => /bookings/:id (delete)
+
+* /user/:uid (get) => /users/:uid (get)
+
+* /allusers (get) => /users (get)
+
+* /single-user/:uid (get) => /users/:uid (get)
+
+* /admin/:uid (get) => /users/is-admin/:uid (get)
+
+* /user-update/:uid (put) => /users/:uid (put)
+
+* /remove-admin/:uid (put) => /users/remove-admin/:uid (put)
+
+* /make-admin/:uid (put) => /users/make-admin/:uid (put)
+
+* /user/:uid (put) => /users/:uid (put)
+
+* /sign-out (get) => /users/sign-out (get)
+
+* /create-payment-intent (post) => /payments (post)
+
+* /packages (get) => /packages (get)
+
+* /packages/:category (get) => /packages/category/:name (get)
+
+* /packages/:category (put) => /packages/category/:name (put)
+
+* /all-packages/:category (get) => /packages/:category/collection (get)
+
+* /package/:category (post) => /packages/:category/collection (post)
+
+* /package/:category/:id (put) => /packages/update/:category/:id (put)
+
+* /package/:category/:id (delete) => /packages/delete/:category/:id (delete)
+
+* /services/:type (get) => /services/type/:name (get)
+
+* /service/:type (post) => /services/type/:name (post)
+
+* /service/:type/:id (put) => /services/type/:name/:id (put)
+
+/service/:type/:id (delete) => /services/type/:name/:id (delete)
