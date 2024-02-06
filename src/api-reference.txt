@@ -64,4 +64,4 @@
 
 * /service/:type/:id (put) => /services/type/:name/:id (put)
 
-/service/:type/:id (delete) => /services/type/:name/:id (delete)
+* /service/:type/:id (delete) => /services/type/:name/:id (delete)
