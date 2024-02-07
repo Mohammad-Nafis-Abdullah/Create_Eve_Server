@@ -23,7 +23,7 @@ const PORT = process.env.PORT || 5000;
 const app = express();
 
 // MIDDLEWARES
-app.use(cors({ origin: true, credentials: true }));
+app.use(cors({ origin: "https://create-eve.web.app/", credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
 app.use(mongodbConnect);
