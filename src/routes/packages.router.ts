@@ -87,7 +87,7 @@ packagesRouter
             } else {
                 const result = await req.DB.collection(`all-${category}`)
                     .find({})
-                    .sort({ price: sort ? "asc" : "desc" })
+                    .sort({ price: Number(sort) ? "asc" : "desc" })
                     .toArray();
 
                 res.status(200).send({
